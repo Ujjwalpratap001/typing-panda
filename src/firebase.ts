@@ -11,7 +11,8 @@ const config = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-export const firebaseConfigured = Boolean(config.apiKey && config.authDomain && config.projectId && config.appId);
+const requiredConfigValues = [config.apiKey, config.authDomain, config.projectId, config.storageBucket, config.messagingSenderId, config.appId];
+export const firebaseConfigured = requiredConfigValues.every(value => typeof value === 'string' && value.length > 0 && !value.startsWith('your_'));
 const app = firebaseConfigured ? (getApps()[0] ?? initializeApp(config)) : null;
 export const auth = app ? getAuth(app) : null;
 export const db = app ? getFirestore(app) : null;
