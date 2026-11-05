@@ -1,0 +1,33 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Private per-user typing history.
+    match /typingResults/{resultId} {
+      allow create: if request.auth != null
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.wpm is int
+        && request.resource.data.wpm >= 0
+        && request.resource.data.wpm <= 300
+        && request.resource.data.accuracy is int
+        && request.resource.data.accuracy >= 0
+        && request.resource.data.accuracy <= 100;
+      allow read, update, delete: if request.auth != null
+        && resource.data.uid == request.auth.uid;
+    }
+
+    // Public leaderboard contains display name and score only, never account UID.
+    match /publicLeaderboard/{entryId} {
+      allow read: if true;
+      allow create: if request.auth != null
+        && request.resource.data.displayName is string
+        && request.resource.data.displayName.size() <= 80
+        && request.resource.data.wpm is int
+        && request.resource.data.wpm >= 0
+        && request.resource.data.wpm <= 300
+        && request.resource.data.accuracy is int
+        && request.resource.data.accuracy >= 0
+        && request.resource.data.accuracy <= 100;
+      allow update, delete: if false;
+    }
+  }
+}
