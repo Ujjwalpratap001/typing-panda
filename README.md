@@ -61,3 +61,13 @@ firebase deploy --only hosting
 - Add Firestore rules that restrict a signed-in user to their own records and expose only safe leaderboard fields.
 - Daily ranking currently has a UI and query scaffold, not a complete trusted daily-ranking backend.
 - Guest results are stored locally in the browser; they are not automatically synced when a guest later signs in yet.
+
+## Firebase deployment notes
+
+- The production build reads Firebase web settings from GitHub Actions secrets. Add these repository secrets under **Settings → Secrets and variables → Actions**: `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_STORAGE_BUCKET`, `VITE_FIREBASE_MESSAGING_SENDER_ID`, and `VITE_FIREBASE_APP_ID`.
+- Firestore rules are defined in `firestore.rules` and referenced by `firebase.json`. After signing in to Firebase CLI for the `typing-panda` project, deploy them once with:
+
+  ```bash
+  npx firebase-tools deploy --only firestore:rules --project typing-panda
+  ```
+- The Hosting GitHub Action builds and deploys the website. Firestore rules are a separate Firebase resource and must be deployed separately when they change.
