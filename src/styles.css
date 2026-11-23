@@ -90,3 +90,27 @@ body{background:#080808;color:#d5d5d5}
  .typing-text{font-size:clamp(22px,5.5vw,32px);line-height:1.7;min-height:240px}
  .typing-footer{margin-top:24px}
 }
+
+
+/* Tiny tactile feedback on every keystroke */
+@keyframes panda-type-pop {
+  0% { transform: translateY(5px) scale(.88); text-shadow: 0 0 0 transparent; }
+  65% { transform: translateY(-2px) scale(1.08); text-shadow: 0 0 16px #e2c90055; }
+  100% { transform: translateY(0) scale(1); text-shadow: 0 0 0 transparent; }
+}
+@keyframes panda-type-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+.letter.is-just-typed.is-correct {
+  display: inline-block;
+  animation: panda-type-pop 190ms cubic-bezier(.2,.8,.2,1);
+}
+.letter.is-just-typed.is-error {
+  display: inline-block;
+  animation: panda-type-shake 160ms ease-in-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .letter.is-just-typed { animation: none !important; }
+}
