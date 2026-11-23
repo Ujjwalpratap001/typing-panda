@@ -86,8 +86,8 @@ export default function App(){
  async function handleLogin(){try{await signInWithGoogle();setNotice('Signed in successfully.');}catch(err){setNotice(err instanceof Error?err.message:'Sign-in was unsuccessful.');}}
  function startLesson(){setLessonTyped('');setLessonText(activeLesson.text);window.setTimeout(()=>learnInputRef.current?.focus(),30);}
  function handleLesson(value:string){setLessonTyped(value);if(value.length>=lessonText.length){setLessonDone(prev=>{const next=Array.from(new Set([...prev,activeLesson.id]));localStorage.setItem('tp-lessons',JSON.stringify(next));return next;});setNotice('Lesson completed! Great progress.');}}
- const displayed=useMemo(()=>text.split('').map((c,i)=>{let cls='letter';if(i<typed.length)cls+=typed[i]===c?' is-correct':' is-error';if(i===typed.length)cls+=' is-current';return <span className={cls} key={i}>{c}</span>;}),[text,typed]);
- const lessonDisplay=useMemo(()=>lessonText.split('').map((c,i)=>{let cls='letter';if(i<lessonTyped.length)cls+=lessonTyped[i]===c?' is-correct':' is-error';if(i===lessonTyped.length)cls+=' is-current';return <span className={cls} key={i}>{c}</span>;}),[lessonText,lessonTyped]);
+ const displayed=useMemo(()=>text.split('').map((c,i)=>{let cls='letter';if(i<typed.length)cls+=typed[i]===c?' is-correct':' is-error';if(i===typed.length-1)cls+=' is-just-typed';if(i===typed.length)cls+=' is-current';return <span className={cls} key={i}>{c}</span>;}),[text,typed]);
+ const lessonDisplay=useMemo(()=>lessonText.split('').map((c,i)=>{let cls='letter';if(i<lessonTyped.length)cls+=lessonTyped[i]===c?' is-correct':' is-error';if(i===lessonTyped.length-1)cls+=' is-just-typed';if(i===lessonTyped.length)cls+=' is-current';return <span className={cls} key={i}>{c}</span>;}),[lessonText,lessonTyped]);
  const keyboardRows=['qwertyuiop','asdfghjkl','zxcvbnm'];
  const currentKey=section==='practice'?text[typed.length]?.toLowerCase():lessonText[lessonTyped.length]?.toLowerCase();
  return <div className={'app-shell '+(section==='learn'?'learn-theme':'practice-theme')}>
