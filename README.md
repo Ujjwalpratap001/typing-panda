@@ -73,3 +73,8 @@ firebase deploy --only hosting
   npx firebase-tools deploy --only firestore:rules --project typing-panda
   ```
 - The Hosting GitHub Action builds and deploys the website. Firestore rules are a separate Firebase resource and must be deployed separately when they change.
+
+
+## Monetization
+
+Typing Panda includes an optional, responsive Google AdSense display slot that stays disabled until the site is approved and the AdSense publisher and ad-unit IDs are configured. See [MONETIZATION.md](./MONETIZATION.md) for the setup checklist, safe placement notes, and Firebase custom-domain steps.
