@@ -2,6 +2,8 @@
 
 A playful typing practice app built with React, TypeScript, Vite, Firebase Authentication and Cloud Firestore.
 
+🌐 **Live Website:** [https://typing-panda.web.app](https://typing-panda.web.app)
+
 ## Current starter features
 
 - Responsive premium playful UI with a CSS-built panda mascot
