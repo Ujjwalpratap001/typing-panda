@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
+import AdSlot from './components/AdSlot';
 import './styles.css';
 
 class AppErrorBoundary extends React.Component<React.PropsWithChildren, { hasError: boolean }> {
@@ -36,7 +37,10 @@ if (!rootElement) {
   createRoot(rootElement).render(
     <React.StrictMode>
       <AppErrorBoundary>
-        <App />
+        <>
+          <App />
+          <AdSlot />
+        </>
       </AppErrorBoundary>
     </React.StrictMode>,
   );
