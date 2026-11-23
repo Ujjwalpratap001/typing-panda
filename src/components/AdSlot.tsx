@@ -6,7 +6,7 @@ const slotId = import.meta.env.VITE_ADSENSE_SLOT_ID?.trim();
 type AdsWindow = Window & { adsbygoogle?: Record<string, unknown>[] };
 
 export default function AdSlot() {
-  const adRef = useRef<HTMLElement>(null);
+  const adRef = useRef<HTMLModElement>(null);
 
   useEffect(() => {
     if (!clientId || !slotId) return;
@@ -31,7 +31,10 @@ export default function AdSlot() {
       script.async = true;
       script.crossOrigin = 'anonymous';
       script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(clientId)}`;
-      script.onload = pushAd;
+      script.onload = () => {
+        script!.dataset.loaded = 'true';
+        pushAd();
+      };
       script.onerror = () => console.error('Google AdSense script could not be loaded.');
       document.head.appendChild(script);
     } else if (script.dataset.loaded === 'true') {
@@ -44,10 +47,14 @@ export default function AdSlot() {
   if (!clientId || !slotId) return null;
 
   return (
-    <aside className="typing-panda-ad" aria-label="Advertisement">
+    <aside
+      className="typing-panda-ad"
+      aria-label="Advertisement"
+      style={{ width: 'min(calc(100% - 32px), 970px)', margin: '48px auto', textAlign: 'center', color: '#777', fontSize: 10 }}
+    >
       <span className="typing-panda-ad-label">ADVERTISEMENT</span>
       <ins
-        ref={adRef as React.RefObject<HTMLElement>}
+        ref={adRef}
         className="adsbygoogle"
         style={{ display: 'block', minHeight: 90 }}
         data-ad-client={clientId}
