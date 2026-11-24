@@ -1,80 +1,77 @@
-# Typing Panda 🐼
+# Typing Panda – Online Typing Practice & Learning App 🐼
 
-A playful typing practice app built with React, TypeScript, Vite, Firebase Authentication and Cloud Firestore.
+**Typing Panda** is a browser-based typing practice application created by **Ujjwal Pratap**. It is designed to help learners practise typing, monitor speed and accuracy, and build consistency through timed tests and a friendly interface.
 
-🌐 **Live Website:** [https://typing-panda.web.app](https://typing-panda.web.app)
+<https://typing-panda.web.app>
 
-## Current starter features
+## What you can do
 
-- Responsive premium playful UI with a CSS-built panda mascot
-- Typing test with live WPM, accuracy, errors and timer
-- 15 / 30 / 60 / 120 second test presets
-- Local history and personal best saved in the current browser
-- Optional Google sign-in integration (requires Firebase web app config)
-- Firestore result save/load scaffolding
-- Daily/all-time leaderboard UI scaffold
-- GitHub-ready project structure and Firebase Hosting support
+- Practise typing in timed sessions
+- Choose from 15, 30, 60, and 120-second test presets
+- View typing speed (WPM), accuracy, errors, and timer feedback
+- Review local typing history and personal-best results
+- Use optional Google sign-in through Firebase Authentication
+- Explore the leaderboard interface and Firestore result integration
 
-## 1. Install and run
+Some online features are still scaffolded. See **Current implementation notes** below before relying on account sync or leaderboard results.
+
+## Technology stack
+
+- React 18
+- TypeScript
+- Vite
+- Firebase Authentication
+- Cloud Firestore
+- Firebase Hosting
+
+## Run locally
+
+Requirements: Node.js and npm.
 
 ```bash
+git clone https://github.com/Ujjwalpratap001/typing-panda.git
+cd typing-panda
 npm install
 npm run dev
 ```
 
-## 2. Configure Firebase
-
-1. Open [Firebase Console](https://console.firebase.google.com/project/typing-panda/overview).
-2. In Project settings → General → Your apps, create a **Web app** if you have not already.
-3. Copy its Firebase web configuration into a local `.env` file based on `.env.example`.
-4. In Authentication → Settings → Authorized domains, ensure `localhost` and your eventual Firebase Hosting domain are allowed.
-5. Configure Firestore security rules before enabling online score saving or a public leaderboard.
-
-The Firebase browser configuration is not a service-account secret, but it must be paired with appropriate Authentication and Firestore security rules. Never commit service-account keys or private credentials.
-
-## 3. Build
+Build the production version:
 
 ```bash
 npm run build
+npm run preview
 ```
 
-Vite outputs the production site to `dist/`.
+## Firebase configuration
 
-## 4. Firebase Hosting deployment
+1. Create or open the Firebase project used by the app.
+2. Configure the Firebase web app values in a local environment file based on `.env.example`.
+3. Enable the required Authentication provider.
+4. Review and deploy Firestore security rules before enabling online score storage.
+5. Keep service-account keys and private credentials out of Git.
 
-After reviewing the app and setting Firestore rules, run from this project folder:
+The Firebase web configuration is intended for browser apps, but it must be protected by correct Firebase Authentication and Firestore security rules.
 
-```bash
-firebase login
-firebase use --add
-firebase init hosting
-```
+## Current implementation notes
 
-Choose the existing `typing-panda` Firebase project, use `dist` as the public directory, configure it as a single-page app, and do not overwrite the existing source files. Then run:
+- Guest history and personal-best information are stored in the current browser.
+- Google sign-in and Firestore result save/load require valid Firebase configuration.
+- The leaderboard interface and query scaffolding are present; ranking data needs trusted score validation and suitable backend rules.
+- Client-submitted typing scores should not be trusted without server-side validation.
+- Guest results are not automatically synchronized to an account after a later sign-in.
 
-```bash
-npm run build
-firebase deploy --only hosting
-```
+## Deployment
 
-## Notes / next hardening steps
+The project includes Firebase Hosting configuration and GitHub Actions deployment support. Configure the required Firebase build secrets in the repository settings, review Firestore rules, build the app, and deploy to the intended Firebase project.
 
-- Public leaderboard needs server-trusted score validation; client-submitted WPM should not be trusted as-is.
-- Add Firestore rules that restrict a signed-in user to their own records and expose only safe leaderboard fields.
-- Daily ranking currently has a UI and query scaffold, not a complete trusted daily-ranking backend.
-- Guest results are stored locally in the browser; they are not automatically synced when a guest later signs in yet.
+## About the Developer
 
-## Firebase deployment notes
+**Ujjwal Pratap** is a B.Tech Computer Science Engineering student at GLA University, Mathura, and CEO of **AP Creative Studio**. He builds web applications and practical digital products while strengthening his skills in programming, problem solving, and product development.
 
-- The production build reads Firebase web settings from GitHub Actions secrets. Add these repository secrets under **Settings → Secrets and variables → Actions**: `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_STORAGE_BUCKET`, `VITE_FIREBASE_MESSAGING_SENDER_ID`, and `VITE_FIREBASE_APP_ID`.
-- Firestore rules are defined in `firestore.rules` and referenced by `firebase.json`. After signing in to Firebase CLI for the `typing-panda` project, deploy them once with:
+- GitHub: [Ujjwalpratap001](https://github.com/Ujjwalpratap001)
+- LinkedIn: [Ujjwal Pratap](https://www.linkedin.com/in/ujjwalpratap624604/)
+- Personal portfolio: [ujjwal-portfolio](https://github.com/Ujjwalpratap001/ujjwal-portfolio)
 
-  ```bash
-  npx firebase-tools deploy --only firestore:rules --project typing-panda
-  ```
-- The Hosting GitHub Action builds and deploys the website. Firestore rules are a separate Firebase resource and must be deployed separately when they change.
+## Feedback
 
-
-## Monetization
-
-Typing Panda includes an optional, responsive Google AdSense display slot that stays disabled until the site is approved and the AdSense publisher and ad-unit IDs are configured. See [MONETIZATION.md](./MONETIZATION.md) for the setup checklist, safe placement notes, and Firebase custom-domain steps.
+Suggestions and bug reports are welcome through the repository’s GitHub Issues.
